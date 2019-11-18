@@ -93,7 +93,7 @@
 	<distributionManagement>
     		<snapshotRepository>
       		<id>artifactory</id>
-       	      	<url>http://13.233.155.164:8081/artifactory/libs-snapshot-local</url>
+       	      	<url>http://13.233.155.164:8081/artifactory/myrepo1</url>
     		</snapshotRepository>
 	</distributionManagement>
 	<build>
