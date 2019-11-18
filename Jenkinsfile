@@ -10,15 +10,14 @@ pipeline {
 		    }
         stage('Build'){
 			 steps{
-             { 
+             
                withSonarQubeEnv('sonar')  
                   { 
                   sh '/opt/maven/bin/mvn clean verify sonar:sonar -Dsonar.password=admin -Dsonar.login=admin -Dmaven.test.failure.ignore=true'
                   } 
              } 
              }
-			 }
-            stage("Quality Gate"){
+			stage('Quality Gate'){
              steps 
 			        {
                  timeout(time: 5, unit: 'MINUTES') {
@@ -27,16 +26,15 @@ pipeline {
                      }
             }
             stage('Deploy') 
-			 steps{
-             { 
-               sh '/opt/maven/bin/mvn clean deploy ' 
-             } 
-			 }
-			stage('Execute') 
-			 steps{
-				{ 
-             sh 'export JENKINS_NODE_COOKIE=dontKillMe ;nohup java -jar $WORKSPACE/target/*.jar &' 
-             } 
-			 }
-		}
-}		
+            {
+                steps{
+		       sh '/opt/maven/bin/mvn clean deploy ' 
+            }
+            }
+			stage('Execute') {
+			    steps{
+			sh 'export JENKINS_NODE_COOKIE=dontKillMe ;nohup java -jar $WORKSPACE/target/*.jar &' 
+            }
+			}
+        }
+   }
